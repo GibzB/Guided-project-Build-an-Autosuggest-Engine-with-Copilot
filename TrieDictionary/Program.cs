@@ -9,20 +9,25 @@ string[] words = {
         "the", "their", "they", "there", "towards"};
 
 Trie dictionary = InitializeTrie(words);
-// SearchWord();
-// PrefixAutocomplete();
-// DeleteWord();
-// GetSpellingSuggestions();
+SearchWord();
+PrefixAutocomplete();
+DeleteWord();
+GetSpellingSuggestions();
 
+// Define a method called InitializeTrie that takes an array of strings as input and returns a Trie object
 Trie InitializeTrie(string[] words)
 {
+    // Create a new Trie object
     Trie trie = new Trie();
 
+    // Loop through each word in the input array
     foreach (string word in words)
     {
+        // Insert the current word into the Trie
         trie.Insert(word);
     }
 
+    // Return the populated Trie
     return trie;
 }
 
@@ -36,12 +41,12 @@ void SearchWord()
         {
             break;
         }
-        /*
+        
         if (input != null && dictionary.Search(input))
         {
             Console.WriteLine($"Found \"{input}\" in dictionary");
         }
-        */
+        
         else
         {
             Console.WriteLine($"Did not find \"{input}\" in dictionary");

@@ -30,10 +30,13 @@ public class Trie
     public bool Insert(string word)
     {
         TrieNode current = root;
+        // For each character in the word
         foreach (char c in word)
         {
+            // If the current node doesn't have a child with the current character
             if (!current.HasChild(c))
             {
+                // Add a new child with the current character
                 current.Children[c] = new TrieNode(c);
             }
             current = current.Children[c];
@@ -45,7 +48,27 @@ public class Trie
         current.IsEndOfWord = true;
         return true;
     }
+
+// Search for a word in the trie
+public bool Search(string word) 
+{
+    TrieNode current = root;
+    foreach (char c in word)
+    {
+        if (!current.HasChild(c))
+        {
+            return false;
+        }
+        current = current.Children[c];
+    }
+    return current.IsEndOfWord;
+}
     
+    /// <summary>
+    /// Retrieves a list of suggested words based on the given prefix.
+    /// </summary>
+    /// <param name="prefix">The prefix to search for.</param>
+    /// <returns>A list of suggested words.</returns>
     public List<string> AutoSuggest(string prefix)
     {
         TrieNode currentNode = root;
@@ -57,7 +80,19 @@ public class Trie
             }
             currentNode = currentNode.Children[c];
         }
-        return GetAllWordsWithPrefix(currentNode, prefix);
+        private List<string> GetAllWordsWithPrefix(TrieNode node, string prefix)
+        {
+            List<string> words = new List<string>();
+            if (node.IsEndOfWord)
+            {
+                words.Add(prefix);
+            }
+            foreach (var child in node.Children)
+            {
+                words.AddRange(GetAllWordsWithPrefix(child.Value, prefix + child.Key));
+            }
+            return words;
+        }
     }
 
     private List<string> GetAllWordsWithPrefix(TrieNode root, string prefix)
